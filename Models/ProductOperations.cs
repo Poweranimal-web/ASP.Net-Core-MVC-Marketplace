@@ -31,7 +31,7 @@ class ProductOperations<T, U> : IService<T> where T : Product where U : MarketPl
         Context.SaveChanges();
     }
     public T GetEntity(int id){
-        return Context.products.Cast<T>().Where(product => product.Id == id).FirstOrDefault();
+        return Context.products.Include(product=>product.details).Cast<T>().Where(product => product.Id == id).FirstOrDefault();
     }
 
 }

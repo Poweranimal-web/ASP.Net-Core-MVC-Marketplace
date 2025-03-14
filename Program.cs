@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-//  using (MarketPlaceDbContext context = new  MarketPlaceDbContext()){        
+// using (MarketPlaceDbContext context = new  MarketPlaceDbContext()){        
+//     context.CreateRole();
 //     context.CreateInitial();
 //     Console.WriteLine("Created data");           
 // }

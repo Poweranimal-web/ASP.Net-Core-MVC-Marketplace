@@ -20,12 +20,30 @@ public class HomeController : Controller
             Product product = productOperations.GetEntity(id);
             return View(product);
         }
-
+    }
+    public IActionResult SignUp(){
+        return View();
+    }
+    [HttpPost]
+    public IActionResult SignUp(string name, string email, string password, string repeat_password){        
+        using (MarketPlaceDbContext context = new MarketPlaceDbContext()){
+            CustomerOperations<Customer, MarketPlaceDbContext> customerOperations 
+            = new CustomerOperations<Customer, MarketPlaceDbContext>(context);
+            Customer customer = new Customer()
+            {Name=name, Email=email, Password=password, IdRole=1};
+            bool exist = customerOperations.Exist(customer);
+            if (!exist){
+                customerOperations.CreateEntity(customer);
+                return Redirect("/");
+            }
+            else{
+                return View(true);
+            }
+        }
     }
 
     public IActionResult Privacy()
     {
-        
         return View();
     }
 

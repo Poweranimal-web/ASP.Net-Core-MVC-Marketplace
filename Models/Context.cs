@@ -3,8 +3,9 @@ namespace Marketplace.Models;
 class MarketPlaceDbContext : DbContext{
     public DbSet<Product> products{get;set;}
     public DbSet<Detail> details {get;set;}
+    public DbSet<Customer> customers {get;set;}
+    public DbSet<Role> roles {get;set;}
     public MarketPlaceDbContext(){
-        Database.EnsureCreated();
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder){
@@ -57,6 +58,10 @@ class MarketPlaceDbContext : DbContext{
                 new Product { Id = 28, ProductId = "P028", Name = "Orange Juice 1L", Price = 4, Amount = 40, IdDetails = 4 },
                 new Product { Id = 29, ProductId = "P029", Name = "Coconut Water 500ml", Price = 3, Amount = 25, IdDetails = 3 },
                 new Product { Id = 30, ProductId = "P030", Name = "Sparkling Water 750ml", Price = 2, Amount = 50, IdDetails = 2 });
+        this.SaveChanges();
+    }
+    public void CreateRole(){
+        roles.Add(new Role { Id = 1,Name="Customer"});
         this.SaveChanges();
     }
 }

@@ -1,4 +1,16 @@
 @model Product
-<h1>@Model.Name</h1>
-<p>Amount: @Model.Amount</p>
-<p>Price: @Model.Price</p>
+<link rel="stylesheet" type="text/css" href="~/StaticFiles/css/detail.css">
+<div style="display: flex;">
+    <div class="image-description"><img class="image" src="/StaticFiles/images/thumb-bananas.png"></div>
+    <div class="menu-control">
+        <div class="description">
+            <h1>@Model.Name</h1>
+            <p>Amount: @Model.Amount</p>
+            <p>Price: @Model.Price$</p>
+            <p>@Model.details.Description</p> 
+        </div>
+        <div class="control">
+            <button id="button-buy">Buy</button>
+        </div>
+    </div>
+</div>

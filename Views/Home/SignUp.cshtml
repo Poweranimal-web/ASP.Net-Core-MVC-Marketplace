@@ -1,0 +1,28 @@
+@model bool
+@{
+    Layout = null;
+ }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="~/StaticFiles/css/signup.css">
+</head>
+<body>
+    <div class="block">
+        <form action="/Home/SignUp/" method="post" class="form-reg">
+            <input type="text" class="input-reg" placeholder="Enter your name" name="name">
+            <input type="email" class="input-reg" placeholder="Enter your email" name="email">
+            <input type="password" class="input-reg" placeholder="Enter your password" name="password">
+            <input type="password" class="input-reg" placeholder="Repeat your password" name="repeat_password">
+            <input type="submit" class="input-reg" value="Submit">
+        </form>
+        @if (@Model == true) {
+            <p>Fuck up</p>
+        }
+    </div>
+</body>
+</html>
+ 

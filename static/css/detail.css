@@ -1,0 +1,12 @@
+.image {
+    width: 400px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+#button-buy {
+    width: 204px;
+    border: none;
+    border-radius: 10px;
+    background-color: #ffe5a8;
+    height: 48px;
+}
