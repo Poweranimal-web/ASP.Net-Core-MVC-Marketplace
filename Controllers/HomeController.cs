@@ -22,23 +22,48 @@ public class HomeController : Controller
         }
     }
     public IActionResult SignUp(){
+        ViewData["RepeatPassword"] = false;
+        return View();
+    }
+    public IActionResult SignIn(){
         return View();
     }
     [HttpPost]
-    public IActionResult SignUp(string name, string email, string password, string repeat_password){        
+    public IActionResult SignIn(string email, string password){
         using (MarketPlaceDbContext context = new MarketPlaceDbContext()){
             CustomerOperations<Customer, MarketPlaceDbContext> customerOperations 
             = new CustomerOperations<Customer, MarketPlaceDbContext>(context);
-            Customer customer = new Customer()
-            {Name=name, Email=email, Password=password, IdRole=1};
-            bool exist = customerOperations.Exist(customer);
-            if (!exist){
-                customerOperations.CreateEntity(customer);
-                return Redirect("/");
+            bool exist = customerOperations.Exist(email,password);
+            if (exist){
+                return Redirect("/");    
             }
             else{
                 return View(true);
             }
+        }
+    }
+    [HttpPost]
+    public IActionResult SignUp(string name, string email, string password, string repeat_password){        
+        ViewData["RepeatPassword"] = false;
+        if (password.Equals(repeat_password)){
+            using (MarketPlaceDbContext context = new MarketPlaceDbContext()){
+                CustomerOperations<Customer, MarketPlaceDbContext> customerOperations 
+                = new CustomerOperations<Customer, MarketPlaceDbContext>(context);
+                Customer customer = new Customer()
+                {Name=name, Email=email, Password=password, IdRole=1};
+                bool exist = customerOperations.Exist(customer);
+                if (!exist){
+                    customerOperations.CreateEntity(customer);
+                    return Redirect("/");
+                }
+                else{
+                    return View(true);
+                }
+            }
+        }
+        else{
+            ViewData["RepeatPassword"] = true;
+            return View();
         }
     }
 

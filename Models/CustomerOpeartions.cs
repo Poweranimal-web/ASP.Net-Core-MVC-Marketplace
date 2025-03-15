@@ -31,6 +31,9 @@ class CustomerOperations<T, U> : IService<T> where T : Customer where U : Market
     public bool Exist(T entity){
         return Context.customers.Any(customer => customer.Email == entity.Email);
     }
+    public bool Exist(string email, string password){
+        return Context.customers.Any(customer => customer.Email == email & customer.Password == password);
+    }
     public T GetEntity(int id){
         return Context.customers.Cast<T>().Where(customer => customer.Id == id).FirstOrDefault();
     }

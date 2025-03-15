@@ -7,7 +7,21 @@
 }
 .block {
     display: flex;
+    flex-direction: column;
     width: auto;
     height: auto;
     justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+input:not([type="submit"]).input-reg {
+    width: 350px;
+    height: 31px;
+}
+input[type="submit"].input-reg {
+    width: 180px;
+    height: 40px;
+    background-color: #fff9eb;
+    border-radius: 11px;
 }
