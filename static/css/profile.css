@@ -1,0 +1,13 @@
+.block{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.form-profile{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+input:not([type="submit"]).profile-input{
+    width: 100px;    
+}

@@ -1,6 +1,9 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Marketplace.Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Marketplace.Controllers;
 
@@ -35,12 +38,21 @@ public class HomeController : Controller
             = new CustomerOperations<Customer, MarketPlaceDbContext>(context);
             bool exist = customerOperations.Exist(email,password);
             if (exist){
+                List<Claim> claims = new List<Claim>(){
+                        new Claim("email", email),
+                        new Claim("role", "member")
+                    };
+                HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims,"Cookies","email","role")));
                 return Redirect("/");    
             }
             else{
                 return View(true);
             }
         }
+    }
+    [Authorize]
+    public IActionResult Profile(){
+        return View();
     }
     [HttpPost]
     public IActionResult SignUp(string name, string email, string password, string repeat_password){        
@@ -54,6 +66,11 @@ public class HomeController : Controller
                 bool exist = customerOperations.Exist(customer);
                 if (!exist){
                     customerOperations.CreateEntity(customer);
+                    List<Claim> claims = new List<Claim>(){
+                        new Claim("email", customer.Email),
+                        new Claim("role", "member")
+                    };
+                    HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims,"Cookies","email","role")));
                     return Redirect("/");
                 }
                 else{

@@ -1,10 +1,14 @@
 using Microsoft.Extensions.FileProviders;
 using Marketplace.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie(options=>{
+    options.LoginPath = "/Home/SignUp";
+});
 var app = builder.Build();
 // using (MarketPlaceDbContext context = new  MarketPlaceDbContext()){        
 //     context.CreateRole();
