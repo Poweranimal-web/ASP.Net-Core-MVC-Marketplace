@@ -177,9 +177,17 @@
 
             <ul class="d-flex justify-content-end list-unstyled m-0">
               <li>
-                <a href="/Home/SignUp" class="rounded-circle bg-light p-2 mx-1">
-                  <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>
-                </a>
+                @if(User.Identity.IsAuthenticated){
+                    <a href="/Home/Profile" class="rounded-circle bg-light p-2 mx-1">
+                      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>
+                    </a>
+                }
+                else{
+                  <a href="/Home/SignUp" class="rounded-circle bg-light p-2 mx-1">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>
+                  </a>
+                }
+                
               </li>
               <li>
                 <a href="#" class="rounded-circle bg-light p-2 mx-1">

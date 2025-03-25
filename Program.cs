@@ -9,6 +9,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 .AddCookie(options=>{
     options.LoginPath = "/Home/SignUp";
 });
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options=>{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 var app = builder.Build();
 // using (MarketPlaceDbContext context = new  MarketPlaceDbContext()){        
 //     context.CreateRole();
@@ -34,7 +40,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

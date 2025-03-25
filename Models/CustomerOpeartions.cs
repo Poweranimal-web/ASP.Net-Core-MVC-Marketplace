@@ -37,5 +37,8 @@ class CustomerOperations<T, U> : IService<T> where T : Customer where U : Market
     public T GetEntity(int id){
         return Context.customers.Cast<T>().Where(customer => customer.Id == id).FirstOrDefault();
     }
+    public T GetEntity(string email){
+        return Context.customers.Cast<T>().Where(customer => customer.Email == email).FirstOrDefault();
+    }
 
 }

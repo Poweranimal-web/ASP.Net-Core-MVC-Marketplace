@@ -4,6 +4,7 @@ using Marketplace.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using System.Text;
 
 namespace Marketplace.Controllers;
 
@@ -31,6 +32,10 @@ public class HomeController : Controller
     public IActionResult SignIn(){
         return View();
     }
+    public IActionResult LogOut(){
+        HttpContext.SignOutAsync();
+        return Redirect("/");
+    }
     [HttpPost]
     public IActionResult SignIn(string email, string password){
         using (MarketPlaceDbContext context = new MarketPlaceDbContext()){
@@ -43,6 +48,7 @@ public class HomeController : Controller
                         new Claim("role", "member")
                     };
                 HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims,"Cookies","email","role")));
+                HttpContext.Session.SetString("email", email);
                 return Redirect("/");    
             }
             else{
@@ -52,7 +58,13 @@ public class HomeController : Controller
     }
     [Authorize]
     public IActionResult Profile(){
-        return View();
+        using (MarketPlaceDbContext context = new MarketPlaceDbContext()){
+            CustomerOperations<Customer, MarketPlaceDbContext> customerOperations 
+            = new CustomerOperations<Customer, MarketPlaceDbContext>(context);
+            StringBuilder email = new StringBuilder(HttpContext.User.Claims.FirstOrDefault(x => x.Type == "email")?.Value);
+            Customer customer = customerOperations.GetEntity(email.ToString());
+            return View(customer);
+        }
     }
     [HttpPost]
     public IActionResult SignUp(string name, string email, string password, string repeat_password){        
