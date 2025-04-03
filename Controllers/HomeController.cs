@@ -5,17 +5,30 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace Marketplace.Controllers;
 
 public class HomeController : Controller
 {
+    [HttpGet]
     public IActionResult Index()
     {
+        ViewData["Search"] = "";
         using (MarketPlaceDbContext context = new  MarketPlaceDbContext()){
             ProductOperations<Product,MarketPlaceDbContext> productOperations = new ProductOperations<Product,MarketPlaceDbContext>(context);
             List<Product> products = productOperations.GetAll();
             return View(products);
+        }
+    }
+    [HttpPost]
+    public IActionResult Index([FromBody] Text text) // dynamic search by text
+    {
+        ViewData["Search"] = text.text;
+        using (MarketPlaceDbContext context = new MarketPlaceDbContext()){
+            ProductOperations<Product,MarketPlaceDbContext> productOperations = new ProductOperations<Product,MarketPlaceDbContext>(context);
+            List<Product> products = context.products.FromSqlInterpolated($"SELECT * FROM products WHERE Name LIKE {text.text + "%"}").ToList(); 
+            return Json(products);
         }
     }
     public IActionResult Details(int id){
